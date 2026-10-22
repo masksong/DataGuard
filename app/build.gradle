@@ -1,0 +1,12 @@
+plugins { id 'com.android.application' }
+android {
+    namespace 'com.example.dataguard'
+    compileSdk 35
+    defaultConfig {
+        applicationId 'com.example.dataguard'
+        minSdk 23
+        targetSdk 26
+        versionCode 2
+        versionName '2.0'
+    }
+}
