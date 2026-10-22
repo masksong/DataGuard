@@ -17,19 +17,21 @@ import android.os.Vibrator;
 public final class AlertHelper {
     private AlertHelper() {}
 
-    public static void alert(Context c, String title, String message, int id) {
+    public static void alert(Context c, String title, String message, int id, boolean playSound, boolean vibrate) {
         NotificationManager nm = (NotificationManager)c.getSystemService(Context.NOTIFICATION_SERVICE);
         String channelId = "dataguard_alerts";
         if (Build.VERSION.SDK_INT >= 26 && nm != null) {
             NotificationChannel ch = new NotificationChannel(
                     channelId, "流量强提醒", NotificationManager.IMPORTANCE_HIGH);
             ch.setDescription("流量百分比和超限提醒");
-            ch.enableVibration(true);
+            ch.enableVibration(vibrate);
             ch.setVibrationPattern(new long[]{0, 700, 300, 700, 300, 1000});
-            Uri sound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
-            ch.setSound(sound, new AudioAttributes.Builder()
-                    .setUsage(AudioAttributes.USAGE_ALARM)
-                    .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION).build());
+            if(playSound){
+                Uri sound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
+                ch.setSound(sound, new AudioAttributes.Builder()
+                        .setUsage(AudioAttributes.USAGE_ALARM)
+                        .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION).build());
+            }
             nm.createNotificationChannel(ch);
         }
 
@@ -42,33 +44,36 @@ public final class AlertHelper {
                 .setContentTitle(title).setContentText(message)
                 .setStyle(new Notification.BigTextStyle().bigText(message))
                 .setContentIntent(pi).setAutoCancel(true)
-                .setPriority(Notification.PRIORITY_MAX)
-                .setVibrate(new long[]{0, 700, 300, 700, 300, 1000});
+                .setPriority(Notification.PRIORITY_MAX);
+                
+        if (vibrate) b.setVibrate(new long[]{0, 700, 300, 700, 300, 1000});
         if (Build.VERSION.SDK_INT >= 26) b.setChannelId(channelId);
         if (nm != null) nm.notify(id, b.build());
 
-        // 尝试启动循环铃声与循环震动；受系统勿扰/厂商策略影响。
-        try {
-            Uri alarm = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
-            if (alarm == null) alarm = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-            Ringtone ringtone = RingtoneManager.getRingtone(c, alarm);
-            if (ringtone != null) {
-                if (Build.VERSION.SDK_INT >= 28) ringtone.setLooping(true);
-                ringtone.play();
-                // 循环铃声在用户手动停止前可能持续播放；不同 ROM 行为不同。
-            }
-        } catch (Exception ignored) {}
+        if (playSound) {
+            try {
+                Uri alarm = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
+                if (alarm == null) alarm = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+                Ringtone ringtone = RingtoneManager.getRingtone(c, alarm);
+                if (ringtone != null) {
+                    if (Build.VERSION.SDK_INT >= 28) ringtone.setLooping(true);
+                    ringtone.play();
+                }
+            } catch (Exception ignored) {}
+        }
 
-        try {
-            Vibrator v = (Vibrator)c.getSystemService(Context.VIBRATOR_SERVICE);
-            if (v != null && v.hasVibrator()) {
-                long[] pattern = {0, 700, 300, 700, 300, 1000};
-                if (Build.VERSION.SDK_INT >= 26)
-                    v.vibrate(VibrationEffect.createWaveform(pattern, 0));
-                else
-                    v.vibrate(pattern, 0);
-            }
-        } catch (Exception ignored) {}
+        if (vibrate) {
+            try {
+                Vibrator v = (Vibrator)c.getSystemService(Context.VIBRATOR_SERVICE);
+                if (v != null && v.hasVibrator()) {
+                    long[] pattern = {0, 700, 300, 700, 300, 1000};
+                    if (Build.VERSION.SDK_INT >= 26)
+                        v.vibrate(VibrationEffect.createWaveform(pattern, 0));
+                    else
+                        v.vibrate(pattern, 0);
+                }
+            } catch (Exception ignored) {}
+        }
     }
 
     public static void stopVibration(Context c) {

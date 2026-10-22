@@ -10,3 +10,12 @@ android {
         versionName '2.0'
     }
 }
+dependencies {
+    // ... 你原有的依赖（比如可能有 junit 等）
+
+    // 必须添加以下两个依赖：
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'androidx.cardview:cardview:1.0.0'
+    
+    // 如果你的项目之前用的是旧版 Support 库（以 com.android.support 开头），请全部删除，换成上面的 AndroidX 库。
+}

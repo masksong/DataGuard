@@ -56,8 +56,7 @@ public class MonitorService extends Service {
             try {
                 long bytes = TrafficStatsHelper.getMonthMobileBytes(this);
                 String month = TrafficStatsHelper.monthKey();
-                android.content.SharedPreferences p =
-                        getSharedPreferences("dataguard", MODE_PRIVATE);
+                android.content.SharedPreferences p = getSharedPreferences("dataguard", MODE_PRIVATE);
                 String savedMonth = p.getString("alert_month", "");
                 if (!month.equals(savedMonth)) {
                     p.edit().putString("alert_month", month)
@@ -66,8 +65,8 @@ public class MonitorService extends Service {
                             .putBoolean("alert_acknowledged", false).apply();
                 }
 
-                float limitGb = p.getFloat("limit_gb", 30f);
-                float warningGb = p.getFloat("warning_gb", 29.58f);
+                float limitGb = p.getFloat("limit_gb", 1.0f);
+                float warningGb = p.getFloat("warning_gb", 0.8f);
                 long limit = (long)(limitGb * 1024d * 1024d * 1024d);
                 long warningBytes = (long)(warningGb * 1024d * 1024d * 1024d);
                 boolean atWarning = bytes >= warningBytes;
@@ -78,6 +77,10 @@ public class MonitorService extends Service {
 
                 boolean sent80 = p.getBoolean("alert80_sent", false);
                 boolean sent100 = p.getBoolean("alert100_sent", false);
+                
+                // 读取开关状态
+                boolean playSound = p.getBoolean("enable_ringtone", true);
+                boolean vibrate = p.getBoolean("enable_vibration", true);
 
                 if (over && !sent100) {
                     p.edit().putBoolean("alert100_sent", true)
@@ -85,7 +88,7 @@ public class MonitorService extends Service {
                     AlertHelper.alert(this, "流量已达到 100% 阈值",
                             "本月已用 " + TrafficStatsHelper.formatGB(bytes)
                                     + "，月度上限 " + limitGb + " GB。请立即手动关闭移动数据。",
-                            4103);
+                            4103, playSound, vibrate);
                 } else if (atWarning && !sent80) {
                     p.edit().putBoolean("alert80_sent", true)
                             .putBoolean("alert_acknowledged", false).apply();
@@ -93,7 +96,7 @@ public class MonitorService extends Service {
                             "本月已用 " + TrafficStatsHelper.formatGB(bytes)
                                     + "，已达到强提醒值 " + String.format(java.util.Locale.getDefault(), "%.2f GB", warningGb)
                                     + "。请检查流量使用情况。",
-                            4102);
+                            4102, playSound, vibrate);
                 }
 
                 handler.post(() -> {
