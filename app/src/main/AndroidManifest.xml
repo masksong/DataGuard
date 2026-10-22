@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.dataguard">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- 原有权限保留 -->
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.PACKAGE_USAGE_STATS" tools:ignore="ProtectedPermissions" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
@@ -12,13 +10,11 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:icon="@android:drawable/sym_def_app_icon"  <!-- 改用系统默认图标 -->
+        android:label="DataGuard"                          <!-- 直接写死应用名 -->
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"> 
 
-        <!-- 首页 -->
         <activity
             android:name=".MainActivity"
             android:exported="true">
@@ -28,13 +24,10 @@
             </intent-filter>
         </activity>
 
-        <!-- ===== 新增的三个 Activity ===== -->
         <activity android:name=".SettingsActivity" android:exported="false" />
         <activity android:name=".FlowSettingsActivity" android:exported="false" />
         <activity android:name=".ReminderSettingsActivity" android:exported="false" />
-        <!-- ================================== -->
 
-        <!-- 原有服务与广播保留 -->
         <service android:name=".MonitorService" android:foregroundServiceType="dataSync" />
         <receiver android:name=".BootReceiver" android:exported="true">
             <intent-filter>
