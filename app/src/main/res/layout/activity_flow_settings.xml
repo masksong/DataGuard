@@ -6,21 +6,89 @@
     android:orientation="vertical"
     android:background="#F5F6F8">
 
-    <RelativeLayout android:layout_width="match_parent" android:layout_height="56dp" android:background="#1976D2">
-        <ImageView android:id="@+id/btnBack" android:layout_width="24dp" android:layout_height="24dp" android:layout_centerVertical="true" android:layout_marginStart="16dp" android:src="@android:drawable/ic_menu_revert" app:tint="#FFFFFF" />
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_centerInParent="true" android:text="流量设置" android:textColor="#FFFFFF" android:textSize="18sp" android:textStyle="bold" />
+    <!-- 顶部导航栏 -->
+    <RelativeLayout 
+        android:layout_width="match_parent" 
+        android:layout_height="56dp" 
+        android:background="#1976D2">
+        
+        <ImageView 
+            android:id="@+id/btnBack" 
+            android:layout_width="24dp" 
+            android:layout_height="24dp" 
+            android:layout_centerVertical="true" 
+            android:layout_marginStart="16dp" 
+            android:src="@android:drawable/ic_menu_revert" 
+            android:tint="#FFFFFF" />
+            
+        <TextView 
+            android:layout_width="wrap_content" 
+            android:layout_height="wrap_content" 
+            android:layout_centerInParent="true" 
+            android:text="流量设置" 
+            android:textColor="#FFFFFF" 
+            android:textSize="18sp" 
+            android:textStyle="bold" />
     </RelativeLayout>
 
-    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="16dp">
-        <androidx.cardview.widget.CardView android:layout_width="match_parent" android:layout_height="wrap_content" app:cardCornerRadius="8dp">
-            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="16dp">
-                <TextView android:text="月度流量上限 (GB)" android:textSize="14sp" android:textColor="#555" />
-                <EditText android:id="@+id/etLimit" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="numberDecimal" android:text="1.00" android:textSize="18sp"/>
+    <!-- 主体内容 -->
+    <LinearLayout 
+        android:layout_width="match_parent" 
+        android:layout_height="wrap_content" 
+        android:orientation="vertical" 
+        android:padding="16dp">
+        
+        <androidx.cardview.widget.CardView 
+            android:layout_width="match_parent" 
+            android:layout_height="wrap_content" 
+            app:cardCornerRadius="8dp"
+            app:cardElevation="2dp">
+            
+            <LinearLayout 
+                android:layout_width="match_parent" 
+                android:layout_height="wrap_content" 
+                android:orientation="vertical" 
+                android:padding="16dp">
                 
-                <TextView android:text="预警点 (GB)" android:layout_marginTop="16dp" android:textSize="14sp" android:textColor="#555" />
-                <EditText android:id="@+id/etWarning" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="numberDecimal" android:text="0.80" android:textSize="18sp"/>
+                <TextView 
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="月度流量上限 (GB)" 
+                    android:textSize="14sp" 
+                    android:textColor="#555555" />
+                    
+                <EditText 
+                    android:id="@+id/etLimit" 
+                    android:layout_width="match_parent" 
+                    android:layout_height="wrap_content" 
+                    android:inputType="numberDecimal" 
+                    android:text="1.00" 
+                    android:textSize="18sp"/>
                 
-                <Button android:id="@+id/btnSave" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="24dp" android:text="保存设置" android:backgroundTint="#1976D2" android:textColor="#FFF"/>
+                <TextView 
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="预警点 (GB)" 
+                    android:layout_marginTop="16dp" 
+                    android:textSize="14sp" 
+                    android:textColor="#555555" />
+                    
+                <EditText 
+                    android:id="@+id/etWarning" 
+                    android:layout_width="match_parent" 
+                    android:layout_height="wrap_content" 
+                    android:inputType="numberDecimal" 
+                    android:text="0.80" 
+                    android:textSize="18sp"/>
+                
+                <Button 
+                    android:id="@+id/btnSave" 
+                    android:layout_width="match_parent" 
+                    android:layout_height="wrap_content" 
+                    android:layout_marginTop="24dp" 
+                    android:text="保存设置" 
+                    android:backgroundTint="#1976D2" 
+                    android:textColor="#FFFFFF"/>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
     </LinearLayout>
