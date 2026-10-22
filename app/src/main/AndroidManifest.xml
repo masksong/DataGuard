@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.dataguard">
 
     <!-- 原有权限保留 -->
@@ -15,7 +16,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.AppCompat.Light.NoActionBar"> <!-- 确保这里是 AppCompat 主题 -->
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar"> 
 
         <!-- 首页 -->
         <activity
@@ -27,7 +28,7 @@
             </intent-filter>
         </activity>
 
-        <!-- ===== 新增以下三个 Activity ===== -->
+        <!-- ===== 新增的三个 Activity ===== -->
         <activity android:name=".SettingsActivity" android:exported="false" />
         <activity android:name=".FlowSettingsActivity" android:exported="false" />
         <activity android:name=".ReminderSettingsActivity" android:exported="false" />
